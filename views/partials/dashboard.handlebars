@@ -1,0 +1,24 @@
+<div class="dashboard">
+    <h2>Dashboard</h2>
+    <div class="blog-posts">
+        {{#each blogPosts}}
+            <div class="blog-post">
+                <h3>{{title}}</h3>
+                <p class="post-meta">Posted on {{formatDate createdAt}}</p>
+                <p>{{{body}}}</p>
+                <a href="/blog/{{id}}">Read more</a>
+                <form action="/blog/{{id}}" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        {{/each}}
+    </div>
+    
+    <form action="/blog" method="POST">
+        <input type="text" name="title" placeholder="Title" required>
+        <textarea name="content" placeholder="Content" required></textarea>
+        <input type="hidden" name="userId" value="{{userId}}">
+        <button type="submit">Publish</button>
+    </form>
+</div>

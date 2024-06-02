@@ -1,0 +1,13 @@
+<div class="homepage">
+    <h2>Welcome to our Tech Blog</h2>
+    <div class="blog-posts">
+        {{#each blogPosts}}
+            <div class="blog-post">
+                <h3>{{title}}</h3>
+                <p class="post-meta">Posted by {{author}} on {{formatDate createdAt}}</p>
+                <p>{{{body}}}</p>
+                <a href="/blog/{{id}}">Read more</a>
+            </div>
+        {{/each}}
+    </div>
+</div>
