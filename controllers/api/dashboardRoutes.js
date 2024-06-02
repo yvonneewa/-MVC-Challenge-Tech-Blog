@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const dashboardRoutesController = require('../controllers/dashboardRoutes');
 
-// Define routes for handling dashboardRoutes-related operations
+
 router.get('/dashboardRoutess', dashboardRoutesController.getAlldashboardRoutes);
 router.post('/dashboardRoutess', dashboardRoutesController.createdashboardRoutes);
 router.get('/dashboardRoutess/:id', dashboardRoutesController.getdashboardRoutesById);

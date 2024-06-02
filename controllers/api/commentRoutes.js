@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const commentController = require('../controllers/commentController');
 
-// Define routes for handling comment-related operations
+
 router.get('/comments', commentController.getAllComments);
 router.post('/comments', commentController.createComment);
 router.get('/comments/:id', commentController.getCommentById);

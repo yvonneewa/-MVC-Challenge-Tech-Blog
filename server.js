@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const session = require('express-session');
 const blogRoutes = require('./controllers/api/BLOG_ROUTES');
 const app = express();
