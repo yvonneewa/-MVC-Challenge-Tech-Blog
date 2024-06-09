@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User } = require('../models');
+
 
 const auth = {
   // Function to hash passwords
@@ -26,7 +26,7 @@ const auth = {
   // Middleware to check if user is authenticated
   isAuthenticated: (req, res, next) => {
     if (req.session.userId) {
-      next(); // User is authenticated, continue to the next middleware
+      next(); 
     } else {
       res.status(401).json({ error: 'Unauthorized' });
     }
