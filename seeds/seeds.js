@@ -5,16 +5,15 @@ const userData = require('./userData.json');
 
 const seedDatabase = async () => {
   try {
-    // Seed users
+ 
     await User.bulkCreate(userData);
 
-    // Seed blogs
+  
     const blogs = await Blog.bulkCreate(blogData);
 
-    // Seed comments
+    
     const comments = await Comment.bulkCreate(commentData);
 
-    // Associate comments with blogs
     await Promise.all(comments.map(comment => {
       const blogId = Math.floor(Math.random() * blogs.length) + 1;
       return comment.setBlog(blogId);
