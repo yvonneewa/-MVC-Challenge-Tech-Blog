@@ -1,24 +1,53 @@
-const express = require('express');
-const session = require('express-session');
-const blogRoutes = require('./controllers/api/blogRoutes'); 
+const path = require("path");
+const express = require("express");
+const session = require("express-session");
+const exphbs = require("express-handlebars");
+const auth = require("./utils/auth"); 
+const sequelize = require("./config/connection");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Set up Handlebars.js engine
+const hbs = exphbs.create();
+
+// Sets session cookie properties
+const sess = {
+  secret: "Super secret secret",
+  cookie: {
+    maxAge: 1200000,
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+  },
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize,
+  }),
+};
+
+const rootHandler = (req, res) => {
+  res.send('');
+};
+
+// Mount the root route handler
+app.get('/', rootHandler);
+
+app.use(session(sess));
+
+// Inform Express.js on which template engine to use
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+
 // Middleware
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
-// Routes
-app.use('/api/blogs', blogRoutes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Syncs sequelize with database
+sequelize.sync({ force: false }).then(() => {
+  app.listen(PORT, () => console.log("Now listening on port " + PORT));
 });

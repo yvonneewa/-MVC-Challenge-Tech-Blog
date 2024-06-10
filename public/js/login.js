@@ -1,4 +1,4 @@
-// Handle submitting login form
+
 document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     
