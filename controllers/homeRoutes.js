@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { Project, User } = require('../models');
+const { homeRoutes, user } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
   try {
 
-    const projectData = await Project.findAll({
+    const homeRoutesData = await homeRoutes.findAll({
       include: [
         {
           model: User,
@@ -14,11 +14,11 @@ router.get('/', async (req, res) => {
       ],
     });
 
-    const projects = projectData.map((project) => project.get({ plain: true }));
+    const homeRoutess = homeRoutesData.map((project) => homeRoutes.get({ plain: true }));
 
     
     res.render('homepage', { 
-      projects, 
+      homeRoutess, 
       logged_in: req.session.logged_in 
     });
   } catch (err) {
@@ -28,16 +28,16 @@ router.get('/', async (req, res) => {
 
 router.get('/project/:id', async (req, res) => {
   try {
-    const projectData = await Project.findByPk(req.params.id, {
+    const homeRoutesData = await homeRoutes.findByPk(req.params.id, {
       include: [
         {
-          model: User,
+          model: user,
           attributes: ['name'],
         },
       ],
     });
 
-    const project = projectData.get({ plain: true });
+    const homeRoutes = homeRoutesData.get({ plain: true });
 
     res.render('project', {
       ...project,
@@ -52,9 +52,9 @@ router.get('/project/:id', async (req, res) => {
 router.get('/profile', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
+    const userData = await user.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Project }],
+      include: [{ model: homeRoutes }],
     });
 
     const user = userData.get({ plain: true });

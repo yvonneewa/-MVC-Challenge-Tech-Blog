@@ -1,61 +1,76 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { homeRoutes, User } = require('../models');
+const withAuth = require('../utils/auth');
 
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const userData = await User.create(req.body);
+    const homeRoutesData = await homeRoutes.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+      ],
+    });
 
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
+    const homeRoutess = homeRoutesData.map((project) => project.get({ plain: true }));
 
-      res.status(200).json(userData);
+    res.render('homepage', { 
+      homeRoutess, 
+      logged_in: req.session.logged_in 
     });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
-router.post('/login', async (req, res) => {
+router.get('/project/:id', async (req, res) => {
   try {
-    const userData = await User.findOne({ where: { email: req.body.email } });
-
-    if (!userData) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
-      return;
-    }
-
-    const validPassword = await userData.checkPassword(req.body.password);
-
-    if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
-      return;
-    }
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-      
-      res.json({ user: userData, message: 'You are now logged in!' });
+    const homeRoutesData = await homeRoutes.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+      ],
     });
 
+    const homeRoute = homeRoutesData.get({ plain: true });
+
+    res.render('project', {
+      ...homeRoute,
+      logged_in: req.session.logged_in
+    });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
-router.post('/logout', (req, res) => {
+router.get('/profile', withAuth, async (req, res) => {
+  try {
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: homeRoutes }],
+    });
+
+    const user = userData.get({ plain: true });
+
+    res.render('profile', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/login', (req, res) => {
   if (req.session.logged_in) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  } else {
-    res.status(404).end();
+    res.redirect('/profile');
+    return;
   }
+
+  res.render('login');
 });
 
 module.exports = router;

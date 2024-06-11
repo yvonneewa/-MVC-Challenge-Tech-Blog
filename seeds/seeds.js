@@ -1,4 +1,4 @@
-const { Blog, Comment, User } = require('../models');
+const { blog, comment, user } = require('../models');
 const blogData = require('./blogPostData.json');
 const commentData = require('./commentData.json');
 const userData = require('./userData.json');
@@ -6,13 +6,13 @@ const userData = require('./userData.json');
 const seedDatabase = async () => {
   try {
  
-    await User.bulkCreate(userData);
+    await user.bulkCreate(userData);
 
   
     const blogs = await Blog.bulkCreate(blogData);
 
     
-    const comments = await Comment.bulkCreate(commentData);
+    const comments = await comment.bulkCreate(commentData);
 
     await Promise.all(comments.map(comment => {
       const blogId = Math.floor(Math.random() * blogs.length) + 1;

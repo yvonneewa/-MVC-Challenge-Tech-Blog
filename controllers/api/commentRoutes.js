@@ -1,12 +1,11 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const { Comment } = require('../../models');
 
 // Create a new comment post
 router.post('/', async (req, res) => {
   try {
-    const newComment = await Comment.create(req.body);
-    res.status(201).json(newComment);
+    const newcomment = await comment.create(req.body);
+    res.status(201).json(newcomment);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -15,7 +14,7 @@ router.post('/', async (req, res) => {
 // Read all comment posts
 router.get('/', async (req, res) => {
   try {
-    const comments = await Comment.findAll();
+    const comments = await comment.findAll();
     res.status(200).json(comments);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -25,11 +24,11 @@ router.get('/', async (req, res) => {
 // Read a specific comment post by ID
 router.get('/:id', async (req, res) => {
   try {
-    const comment = await Comment.findByPk(req.params.id);
+    const comment = await comment.findByPk(req.params.id);
     if (comment) {
       res.status(200).json(comment);
     } else {
-      res.status(404).json({ error: 'Comment not found' });
+      res.status(404).json({ error: 'comment not found' });
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -39,100 +38,29 @@ router.get('/:id', async (req, res) => {
 // Update a comment post by ID
 router.put('/:id', async (req, res) => {
   try {
-    const [updated] = await Comment.update(req.body, {
+    const [updated] = await comment.update(req.body, {
       where: { id: req.params.id }
     });
     if (updated) {
-      res.status(200).json({ message: 'Comment updated successfully' });
+      res.status(200).json({ message: 'comment updated successfully' });
     } else {
-      res.status(404).json({ error: 'Comment not found' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }const express = require('express');
-const router = express.Router();
-const { Blog } = require('../../models');
-
-// Create a new blog post
-router.post('/', async (req, res) => {
-  try {
-    const newBlog = await Blog.create(req.body);
-    res.status(201).json(newBlog);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// Read all blog posts
-router.get('/', async (req, res) => {
-  try {
-    const blogs = await Blog.findAll();
-    res.status(200).json(blogs);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Read a specific blog post by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const blog = await Blog.findByPk(req.params.id);
-    if (blog) {
-      res.status(200).json(blog);
-    } else {
-      res.status(404).json({ error: 'Blog not found' });
+      res.status(404).json({ error: 'comment not found' });
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
-});
-
-// Update a blog post by ID
-router.put('/:id', async (req, res) => {
-  try {
-    const [updated] = await Blog.update(req.body, {
-      where: { id: req.params.id }
-    });
-    if (updated) {
-      res.status(200).json({ message: 'Blog updated successfully' });
-    } else {
-      res.status(404).json({ error: 'Blog not found' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Delete a blog post by ID
-router.delete('/:id', async (req, res) => {
-  try {
-    const deleted = await Blog.destroy({
-      where: { id: req.params.id }
-    });
-    if (deleted) {
-      res.status(204).end();
-    } else {
-      res.status(404).json({ error: 'Blog not found' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-module.exports = router;
-
 });
 
 // Delete a comment post by ID
 router.delete('/:id', async (req, res) => {
   try {
-    const deleted = await Comment.destroy({
+    const deleted = await comment.destroy({
       where: { id: req.params.id }
     });
     if (deleted) {
       res.status(204).end();
     } else {
-      res.status(404).json({ error: 'Comment not found' });
+      res.status(404).json({ error: 'comment not found' });
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
