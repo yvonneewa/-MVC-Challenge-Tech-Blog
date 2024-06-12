@@ -2,11 +2,10 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const exphbs = require("express-handlebars");
-const auth = require("./utils/auth"); 
+const auth = require("./utils/auth");
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const routes =("./controllers");
-
+const routes = require("./controllers");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,7 +44,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //   res.send("homepage")
 // })
 
-app.use(routes)
+app.use(routes);
 
 // Syncs sequelize with database
 sequelize.sync({ force: false }).then(() => {

@@ -4,8 +4,8 @@
         {{#each blogPosts}}
             <div class="blog-post">
                 <h3>{{title}}</h3>
-                <p class="post-meta">Posted by {{author}} on {{formatDate createdAt}}</p>
-                <p>{{{body}}}</p>
+                <p class="post-meta">Posted by {{user.name}}</p>
+                <p>{{{content}}}</p>
                 <a href="/blog/{{id}}">Read more</a>
             </div>
         {{/each}}
