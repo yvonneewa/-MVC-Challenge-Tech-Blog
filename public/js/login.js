@@ -1,20 +1,20 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-document.getElementById('loginForm').addEventListener('submit', async (event) => {
+document.querySelector('.login-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+
+    const email = document.getElementById('email-login').value;
+    const password = document.getElementById('password-login').value;
     
     try {
-        const response = await fetch('/login', {
+        const response = await fetch('/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ email, password })
         });
         
         if (response.ok) {

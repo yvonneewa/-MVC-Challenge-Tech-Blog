@@ -1,17 +1,19 @@
 // Handle submitting signup form
-document.getElementById('signupForm').addEventListener('submit', async (event) => {
+console.log('hello')
+document.querySelector('.signup-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const name = document.getElementById('name-signup').value;
+    const email = document.getElementById('email-signup').value;
+    const password = document.getElementById('password-signup').value;
     
     try {
-        const response = await fetch('/signup', {
+        const response = await fetch('/api/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ name, password,email })
         });
         
         if (response.ok) {

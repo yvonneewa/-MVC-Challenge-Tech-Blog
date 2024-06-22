@@ -36,19 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 
-app.get("/dashboard", async (req, res) => {
-  try {
-    // Fetch data necessary for the dashboard from the database
-    const dashboardData = await Dashboard.findAll(); // Assuming you want to fetch all dashboard data
 
-    // Render the dashboard view with the fetched data
-    res.render("dashboard", { dashboardData });
-  } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    // Handle errors appropriately
-    res.status(500).send("Internal Server Error");
-  }
-});
 
 app.use(routes);
 
