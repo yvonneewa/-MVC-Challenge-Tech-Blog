@@ -5,8 +5,8 @@ const { Dashboard } = require('../../models');
 // Route handler for the dashboard page
 router.get('/dashboard', async (req, res) => {
   try {
-    // Render the dashboard view/template here if you are using server-side rendering
-    res.render('dashboard'); // Replace 'dashboard' with the actual name of your template file
+   
+    res.render('dashboard'); 
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }

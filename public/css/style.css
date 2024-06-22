@@ -31,24 +31,24 @@ main {
 }
 
 .user-name {
-  background-color: #84a59d;
+  /* background-color: #84a59d; */
 }
 
 .blogPost-main {
   margin-top: 34px;
 }
 
-/* Nav styles */
+
 
 .navBar {
-  background-color: #00a0a0;
+  /* background-color: #00a0a0; */
 }
 
 #logout {
   background-color: #84a59d;
 }
 
-/* Input/textarea styles */
+
 
 #titleInput,
 #bodyInput,
@@ -61,13 +61,12 @@ main {
   background-color: #e5eaf5;
 }
 
-/* Button styles */
 
 .btn {
   background-color: #ffb3c6;
 }
 
-/* Card styles */
+
 
 .card-header {
   background-color: #e5eaf5;

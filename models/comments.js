@@ -1,22 +1,46 @@
-const { DataTypes, Sequelize } = require('sequelize');
-const sequelize = new Sequelize('database', 'username', 'password', {
-  dialect: 'mysql', // or 'postgres', 'sqlite', etc.
-  host: 'localhost',
-  // other options
-});
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
-const Comment = sequelize.define('Comment', {
-  text: {
-    type: DataTypes.TEXT,
-    allowNull: false
+class Comment extends Model {}
+
+Comment.init(
+  {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+      },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
+      },
+      post_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'post',
+          key: 'id'
+        }
+      },
+      comment_text: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1]
+        }
+      }
   },
-});
+  {
+    sequelize,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'comment'
+  }
+);
 
-
-// // Define associations
-// Comment.belongsTo(Dashboard, {
-//   foreignKey: 'dashboardId',
-// });
-
-// Export the Comment model
 module.exports = Comment;

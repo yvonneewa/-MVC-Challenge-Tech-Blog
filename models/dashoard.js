@@ -1,7 +1,7 @@
-// Import necessary modules for defining the model
+
 const { DataTypes } = require('sequelize');
 const Comment = require('./comment'); 
-// Define the Dashboard model
+
 const Dashboard = sequelize.define('Dashboard', {
   title: {
     type: DataTypes.STRING,

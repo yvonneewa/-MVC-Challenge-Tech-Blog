@@ -1,4 +1,4 @@
-// Handle deleting blog post
+
 document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', async (event) => {
         event.preventDefault();

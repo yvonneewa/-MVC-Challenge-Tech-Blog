@@ -17,14 +17,14 @@
         <a href="/"> Tech Blog</a>
       </h1>
       <nav>
-  <!-- Conditionally render home and dashboard links -->
+
   <a href="/">Home</a>
   <a href="/dashboard">Dashboard</a>
   
-  <!-- Conditionally render login or logout links -->
+
   {{#if logged_in}}
     {{!-- <a href="/dashboard">Profile</a> --}}
-    <button class="no-button" id="logout">Logout</button>
+     <a href="/logout">Logout</a>
   {{else}}
     <a href="/login">Login</a>
   {{/if}}
@@ -32,7 +32,7 @@
 
     </header>
     <main class="container container-fluid mt-5">
-      <!-- Render the sub layout -->
+     
       {{{ body }}}
     </main>
     <footer>
@@ -40,7 +40,6 @@
     </footer>
   </div>
 
-  <!-- Render script for logged in users only -->
   {{#if logged_in}}
   <script src="/js/logout.js"></script>
   {{/if}}

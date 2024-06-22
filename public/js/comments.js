@@ -1,4 +1,4 @@
-// Handle submitting new comment form
+
 document.getElementById('newCommentForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     

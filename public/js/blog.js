@@ -1,4 +1,4 @@
-// Handle submitting new blog post form
+
 document.getElementById('newBlogForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     
