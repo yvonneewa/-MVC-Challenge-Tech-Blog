@@ -11,14 +11,14 @@ const seedDatabase = async () => {
 
       const blogs = await Blog.bulkCreate(blogData);
 
-      // const comments = await Comment.bulkCreate(commentData);
+      const comments = await Comment.bulkCreate(commentData);
 
-      // await Promise.all(
-      //   comments.map((comment) => {
-      //     const blogId = Math.floor(Math.random() * blogs.length) + 1;
-      //     return comment.setBlog(blogId);
-      //   })
-      // );
+      await Promise.all(
+        comments.map((comment) => {
+          const blogId = Math.floor(Math.random() * blogs.length) + 1;
+          return comment.setBlog(blogId);
+        })
+      );
 
       console.log("Database seeded successfully");
     });

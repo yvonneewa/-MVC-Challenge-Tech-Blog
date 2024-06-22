@@ -1,4 +1,6 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+
 document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     
@@ -26,4 +28,5 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         console.error('Login failed:', error);
         
     }
+});
 });

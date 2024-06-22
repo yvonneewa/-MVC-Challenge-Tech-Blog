@@ -2,7 +2,6 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const exphbs = require("express-handlebars");
-const auth = require("./utils/auth");
 const sequelize = require("./config/connection");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const routes = require("./controllers");
@@ -10,10 +9,8 @@ const routes = require("./controllers");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set up Handlebars.js engine
 const hbs = exphbs.create();
 
-// Sets session cookie properties
 const sess = {
   secret: "Super secret secret",
   cookie: {
@@ -31,22 +28,30 @@ const sess = {
 
 app.use(session(sess));
 
-// Inform Express.js on which template engine to use
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.get("/",(req,res) => {
-//   res.send("homepage")
-// })
+
+app.get("/dashboard", async (req, res) => {
+  try {
+    // Fetch data necessary for the dashboard from the database
+    const dashboardData = await Dashboard.findAll(); // Assuming you want to fetch all dashboard data
+
+    // Render the dashboard view with the fetched data
+    res.render("dashboard", { dashboardData });
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    // Handle errors appropriately
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 app.use(routes);
 
-// Syncs sequelize with database
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log("Now listening on port " + PORT));
 });
